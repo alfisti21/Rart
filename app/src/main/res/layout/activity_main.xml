@@ -41,13 +41,13 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:id="@+id/paintingName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="Maternity"
+                android:layout_weight="1"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="30sp"/>
         </TableRow>
 
         <TableRow
@@ -64,11 +64,11 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="Benjamin West"
+                android:layout_weight="1"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
         </TableRow>
@@ -87,11 +87,11 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/paintingYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="1784"
+                android:layout_weight="1"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
         </TableRow>
@@ -110,11 +110,11 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/culture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="American"
+                android:layout_weight="1"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
         </TableRow>
@@ -157,14 +157,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/previous" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"

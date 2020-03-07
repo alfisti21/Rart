@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">iART</string>
     <string name="readPainting">Painting</string>
+    <string name="notAvailable">Not Available</string>
 </resources>
