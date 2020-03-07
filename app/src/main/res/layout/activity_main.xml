@@ -8,13 +8,14 @@
 
     <ImageView
         android:id="@+id/painting"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/todo" />
 
     <TableLayout
         android:layout_width="0dp"
@@ -45,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:fontFamily="cursive"
-                android:text="TextView" />
+                android:textSize="30sp"
+                android:text="Maternity" />
         </TableRow>
 
         <TableRow
@@ -67,7 +69,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:fontFamily="cursive"
-                android:text="TextView" />
+                android:textSize="30sp"
+                android:text="Benjamin West" />
         </TableRow>
 
         <TableRow
@@ -89,7 +92,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:fontFamily="cursive"
-                android:text="TextView" />
+                android:textSize="30sp"
+                android:text="1784" />
         </TableRow>
 
         <TableRow
@@ -103,7 +107,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="cursive"
                 android:textSize="30sp"
-                android:text="Category:" />
+                android:text="Culture:" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -111,7 +115,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:fontFamily="cursive"
-                android:text="TextView" />
+                android:textSize="30sp"
+                android:text="American" />
         </TableRow>
     </TableLayout>
 
@@ -121,6 +126,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintGuide_percent="0.65"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
