@@ -23,8 +23,11 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
@@ -56,6 +59,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences myPrefs;
+    boolean expanded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
         TextView cultureTV = findViewById(R.id.culture);
         final TextView maxTV = findViewById(R.id.total);
         final TextView currentCountTV = findViewById(R.id.alreadyViewed);
-        ImageView paintingImageIV = findViewById(R.id.painting);
-        ImageView previousArrow = findViewById(R.id.previous);
-        ImageView nextArrow = findViewById(R.id.next);
+        final ImageView paintingImageIV = findViewById(R.id.painting);
+        final ImageView previousArrow = findViewById(R.id.previous);
+        final ImageView nextArrow = findViewById(R.id.next);
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         final String prefsPaintingImage = myPrefs.getString("IMAGE",null);
         final String prefsPaintingName = myPrefs.getString("TITLE",null);
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         String prefsCulture = myPrefs.getString("CULTURE",null);
         String allTimeTotal = myPrefs.getString("TOTAL",null);
         String currentCountSP = myPrefs.getString("CURRENT",null);
+        final LinearLayout buttonsLayout = findViewById(R.id.linearLayout);
+        final ScrollView infoMatrix = findViewById(R.id.scroll_View2);
 
         if (prefsPaintingImage == null && prefsPaintingName == null && prefsArtistName == null
                 && prefsPaintingYear == null && prefsCulture == null && allTimeTotal == null && currentCountSP == null) {
@@ -227,6 +233,23 @@ public class MainActivity extends AppCompatActivity {
                 alert.show();
 
                 return true;
+            }
+        });
+        paintingImageIV.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(!expanded) {
+                    paintingImageIV.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    paintingImageIV.requestLayout();
+                    buttonsLayout.setVisibility(View.GONE);
+                    infoMatrix.setVisibility(View.GONE);
+                    expanded = true;
+                }else{
+                    paintingImageIV.getLayoutParams().height = 0;
+                    paintingImageIV.requestLayout();
+                    buttonsLayout.setVisibility(View.VISIBLE);
+                    infoMatrix.setVisibility(View.VISIBLE);
+                    expanded = false;
+                }
             }
         });
     }
