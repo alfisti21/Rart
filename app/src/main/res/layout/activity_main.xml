@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="Painting Name: "
+                android:text="@string/painting_name"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="Artist Name:   "
+                android:text="@string/artist_name"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
 
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="Year Painted:"
+                android:text="@string/year_created"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
 
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="cursive"
-                android:text="Culture:"
+                android:text="@string/culture"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
 
@@ -138,15 +138,6 @@
         app:layout_constraintGuide_percent="0.60"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:srcCompat="@drawable/previous" />
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -161,14 +152,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@drawable/previous" />
+            app:srcCompat="@drawable/previous"
+            android:contentDescription="@string/previousDesc" />
 
         <ImageView
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@drawable/next" />
+            app:srcCompat="@drawable/next"
+            android:contentDescription="@string/nextDesc" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

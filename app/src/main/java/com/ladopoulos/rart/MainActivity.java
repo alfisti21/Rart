@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
         File file = new File(Environment.getExternalStorageDirectory() + "/" + "paintingIDs.json");
         if (!file.exists()) {
+            myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = myPrefs.edit();
+            editor.putString("NEXT", "0");
+            editor.apply();
             PaintingIDs();
         }
     }
@@ -91,17 +96,34 @@ public class MainActivity extends AppCompatActivity {
 
         previousArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                String previousStringZero = myPrefs.getString("NEXT", null);
+                assert previousStringZero != null;
+                int nextIntZero = Integer.parseInt(previousStringZero);
+                if(nextIntZero<=0){
+                    Toast toast = Toast.makeText(MainActivity.this,"This is the beginning", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }else{
+                try {
+                    PreviousPaintingDetails();
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+                }
             }
         });
         nextArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                try {
+                    NextPaintingDetails();
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    public void  PaintingIDs(){
+    public void PaintingIDs(){
         final ProgressDialog pdIDs = new ProgressDialog(MainActivity.this);
         RequestQueue firstQueue = Volley.newRequestQueue(MainActivity.this);
 
@@ -162,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
             firstQueue.add(jsonObjectRequest);
     }
 
-    public void FirstPaintingDetails(){
+    public void FirstPaintingDetails() throws IOException, JSONException {
         final TextView paintingNameFTV = findViewById(R.id.paintingName);
         final TextView artistNameFTV = findViewById(R.id.artistName);
         final TextView paintingYearFTV = findViewById(R.id.paintingYear);
@@ -176,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         pdDetails.setCancelable(false);
         pdDetails.show();
 
-        try {
+
             InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
             int size = is.available();
             byte[] data = new byte[size];
@@ -184,14 +206,9 @@ public class MainActivity extends AppCompatActivity {
             is.close();
             String json = new String(data, StandardCharsets.UTF_8);
             jsonArray = new JSONArray(json);
-            JSONObject jsonobject = jsonArray.getJSONObject(0);
-            Log.e("JSONOBJECT", jsonobject.toString());
+            int jsonobject = jsonArray.getInt(0);
 
-        } catch (JSONException | IOException je) {
-            je.printStackTrace();
-        }
-
-        String urlPaintingDetails = "https://collectionapi.metmuseum.org/public/collection/v1/objects/266133";
+        String urlPaintingDetails = "https://collectionapi.metmuseum.org/public/collection/v1/objects/" + jsonobject;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlPaintingDetails, null, new Response.Listener<JSONObject>() {
@@ -277,6 +294,248 @@ public class MainActivity extends AppCompatActivity {
             secondQueue.add(jsonObjectRequest);
     }
 
+    public void NextPaintingDetails() throws IOException, JSONException {
+        final TextView paintingNameFTV = findViewById(R.id.paintingName);
+        final TextView artistNameFTV = findViewById(R.id.artistName);
+        final TextView paintingYearFTV = findViewById(R.id.paintingYear);
+        final TextView cultureFTV = findViewById(R.id.culture);
+        final ImageView paintingImageFIV = findViewById(R.id.painting);
+        JSONArray jsonArray;
+        final ProgressDialog pdDetails = new ProgressDialog(MainActivity.this);
+        RequestQueue secondQueue = Volley.newRequestQueue(MainActivity.this);
+        //this method will be running on UI thread
+        pdDetails.setMessage("\tLoading...");
+        pdDetails.setCancelable(false);
+        pdDetails.show();
+
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String nextString = myPrefs.getString("NEXT", null);
+        assert nextString != null;
+        int nextInt = Integer.parseInt(nextString);
+
+        InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
+        int size = is.available();
+        byte[] data = new byte[size];
+        is.read(data);
+        is.close();
+        String json = new String(data, StandardCharsets.UTF_8);
+        jsonArray = new JSONArray(json);
+        int jsonobject = jsonArray.getInt(nextInt+1);
+        SharedPreferences.Editor editor = myPrefs.edit();
+        editor.putString("NEXT", String.valueOf(nextInt+1));
+        editor.apply();
+
+        String urlPaintingDetails = "https://collectionapi.metmuseum.org/public/collection/v1/objects/" + jsonobject;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, urlPaintingDetails, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //Log.e("RESPONSE",response.toString());
+                        if(response.length()==0){
+                            Toast toast = Toast.makeText(MainActivity.this,"0 Response", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        } else {
+                            Log.e("PAINTING DETAILS", response.toString());
+                            try {
+                                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = myPrefs.edit();
+                                editor.putString("IMAGE", response.getString("primaryImage"));
+                                if(response.getString("title").matches("")){
+                                    editor.putString("TITLE", "Not available");
+                                    paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    paintingNameFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("TITLE", response.getString("title"));
+                                    paintingNameFTV.setTextColor(Color.parseColor("#000000"));
+                                    paintingNameFTV.setText(response.getString("title"));
+                                }
+
+                                if(response.getString("artistDisplayName").matches("")){
+                                    editor.putString("ARTISTNAME", "Not available");
+                                    artistNameFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    artistNameFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("ARTISTNAME", (response.getString("artistDisplayName")));
+                                    artistNameFTV.setTextColor(Color.parseColor("#000000"));
+                                    artistNameFTV.setText(response.getString("artistDisplayName"));
+                                }
+
+                                if(response.getString("objectEndDate").matches("")){
+                                    editor.putString("DATE", "Not available");
+                                    paintingYearFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    paintingYearFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("DATE", (response.getString("objectEndDate")));
+                                    paintingYearFTV.setTextColor(Color.parseColor("#000000"));
+                                    paintingYearFTV.setText(response.getString("objectEndDate"));
+                                }
+
+                                if(response.getString("culture").matches("")){
+                                    editor.putString("CULTURE", "Not available");
+                                    cultureFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    cultureFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("CULTURE", (response.getString("culture")));
+                                    cultureFTV.setTextColor(Color.parseColor("#000000"));
+                                    cultureFTV.setText(response.getString("culture"));
+                                }
+
+                                editor.apply();
+
+                                String primaryImage = response.getString("primaryImage");
+                                Picasso.get().load(primaryImage).noFade().into(paintingImageFIV);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            pdDetails.dismiss();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyError errorCode = (VolleyError) error.getCause();
+                        Toast toast = Toast.makeText(MainActivity.this,errorCode.toString(), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        secondQueue.add(jsonObjectRequest);
+    }
+
+    public void PreviousPaintingDetails() throws IOException, JSONException {
+        final TextView paintingNameFTV = findViewById(R.id.paintingName);
+        final TextView artistNameFTV = findViewById(R.id.artistName);
+        final TextView paintingYearFTV = findViewById(R.id.paintingYear);
+        final TextView cultureFTV = findViewById(R.id.culture);
+        final ImageView paintingImageFIV = findViewById(R.id.painting);
+        JSONArray jsonArray;
+        final ProgressDialog pdDetails = new ProgressDialog(MainActivity.this);
+        RequestQueue secondQueue = Volley.newRequestQueue(MainActivity.this);
+        //this method will be running on UI thread
+        pdDetails.setMessage("\tLoading...");
+        pdDetails.setCancelable(false);
+        pdDetails.show();
+
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String nextString = myPrefs.getString("NEXT", null);
+        assert nextString != null;
+        int nextInt = Integer.parseInt(nextString);
+
+        InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
+        int size = is.available();
+        byte[] data = new byte[size];
+        is.read(data);
+        is.close();
+        String json = new String(data, StandardCharsets.UTF_8);
+        jsonArray = new JSONArray(json);
+        int jsonobject = jsonArray.getInt(nextInt-1);
+        SharedPreferences.Editor editor = myPrefs.edit();
+        editor.putString("NEXT", String.valueOf(nextInt-1));
+        editor.apply();
+
+        String urlPaintingDetails = "https://collectionapi.metmuseum.org/public/collection/v1/objects/" + jsonobject;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, urlPaintingDetails, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //Log.e("RESPONSE",response.toString());
+                        if(response.length()==0){
+                            Toast toast = Toast.makeText(MainActivity.this,"0 Response", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        } else {
+                            Log.e("PAINTING DETAILS", response.toString());
+                            try {
+                                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = myPrefs.edit();
+                                editor.putString("IMAGE", response.getString("primaryImage"));
+                                if(response.getString("title").matches("")){
+                                    editor.putString("TITLE", "Not available");
+                                    paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    paintingNameFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("TITLE", response.getString("title"));
+                                    paintingNameFTV.setTextColor(Color.parseColor("#000000"));
+                                    paintingNameFTV.setText(response.getString("title"));
+                                }
+
+                                if(response.getString("artistDisplayName").matches("")){
+                                    editor.putString("ARTISTNAME", "Not available");
+                                    artistNameFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    artistNameFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("ARTISTNAME", (response.getString("artistDisplayName")));
+                                    artistNameFTV.setTextColor(Color.parseColor("#000000"));
+                                    artistNameFTV.setText(response.getString("artistDisplayName"));
+                                }
+
+                                if(response.getString("objectEndDate").matches("")){
+                                    editor.putString("DATE", "Not available");
+                                    paintingYearFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    paintingYearFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("DATE", (response.getString("objectEndDate")));
+                                    paintingYearFTV.setTextColor(Color.parseColor("#000000"));
+                                    paintingYearFTV.setText(response.getString("objectEndDate"));
+                                }
+
+                                if(response.getString("culture").matches("")){
+                                    editor.putString("CULTURE", "Not available");
+                                    cultureFTV.setTextColor(Color.parseColor("#ff0000"));
+                                    cultureFTV.setText(R.string.notAvailable);
+                                }else{
+                                    editor.putString("CULTURE", (response.getString("culture")));
+                                    cultureFTV.setTextColor(Color.parseColor("#000000"));
+                                    cultureFTV.setText(response.getString("culture"));
+                                }
+
+                                editor.apply();
+
+                                String primaryImage = response.getString("primaryImage");
+                                Picasso.get().load(primaryImage).noFade().into(paintingImageFIV);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            pdDetails.dismiss();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyError errorCode = (VolleyError) error.getCause();
+                        Toast toast = Toast.makeText(MainActivity.this,errorCode.toString(), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        secondQueue.add(jsonObjectRequest);
+    }
+
     public void mCreateAndSaveFile(String params, String mJsonResponse) {
         try {
             FileWriter file = new FileWriter(Environment.getExternalStorageDirectory() + "/" + params);
@@ -284,10 +543,9 @@ public class MainActivity extends AppCompatActivity {
             file.flush();
             file.close();
             FirstPaintingDetails();
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
-
 
 }
