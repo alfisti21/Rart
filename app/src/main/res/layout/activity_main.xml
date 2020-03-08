@@ -10,10 +10,10 @@
         android:id="@+id/painting"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:paddingEnd="10dp"
+        android:contentDescription="@string/readPainting"
         android:paddingStart="10dp"
         android:paddingTop="10dp"
-        android:contentDescription="@string/readPainting"
+        android:paddingEnd="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,13 +21,12 @@
 
     <TableLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TableRow
             android:layout_width="match_parent"
@@ -46,10 +45,11 @@
                 android:id="@+id/paintingName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="cursive"
                 android:layout_weight="1"
+                android:gravity="end"
+                android:fontFamily="cursive"
                 android:textColor="@color/black"
-                android:textSize="30sp"/>
+                android:textSize="30sp" />
         </TableRow>
 
         <TableRow
@@ -69,8 +69,9 @@
                 android:id="@+id/artistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="cursive"
                 android:layout_weight="1"
+                android:gravity="end"
+                android:fontFamily="cursive"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
         </TableRow>
@@ -92,8 +93,9 @@
                 android:id="@+id/paintingYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="cursive"
                 android:layout_weight="1"
+                android:gravity="end"
+                android:fontFamily="cursive"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
         </TableRow>
@@ -115,8 +117,9 @@
                 android:id="@+id/culture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="cursive"
                 android:layout_weight="1"
+                android:gravity="end"
+                android:fontFamily="cursive"
                 android:textColor="@color/black"
                 android:textSize="30sp" />
         </TableRow>
@@ -128,7 +131,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintGuide_percent="0.70"
+        app:layout_constraintGuide_percent="0.68"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -137,16 +140,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.60"
+        app:layout_constraintGuide_percent="0.58"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
@@ -154,37 +158,64 @@
             android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="40dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/previous"
-            android:contentDescription="@string/previousDesc" />
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:contentDescription="@string/previousDesc"
+            app:srcCompat="@drawable/previous" />
 
         <TextView
             android:id="@+id/alreadyViewed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="cursive" />
+            android:fontFamily="cursive"
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/numberSeparator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:fontFamily="cursive"
-            android:text=" of " />
+            android:text=" of "
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="cursive" />
+            android:fontFamily="cursive"
+            android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@drawable/next"
-            android:contentDescription="@string/nextDesc" />
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="40dp"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:contentDescription="@string/nextDesc"
+            app:srcCompat="@drawable/next" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <TextView
+        android:id="@+id/developer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Developed by JelloDev"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

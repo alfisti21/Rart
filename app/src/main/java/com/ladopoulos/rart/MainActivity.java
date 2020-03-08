@@ -5,11 +5,15 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +33,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,11 +42,13 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         ImageView previousArrow = findViewById(R.id.previous);
         ImageView nextArrow = findViewById(R.id.next);
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
-        String prefsPaintingImage = myPrefs.getString("IMAGE",null);
-        String prefsPaintingName = myPrefs.getString("TITLE",null);
+        final String prefsPaintingImage = myPrefs.getString("IMAGE",null);
+        final String prefsPaintingName = myPrefs.getString("TITLE",null);
         String prefsArtistName = myPrefs.getString("ARTISTNAME",null);
         String prefsPaintingYear = myPrefs.getString("DATE",null);
         String prefsCulture = myPrefs.getString("CULTURE",null);
@@ -138,6 +146,77 @@ public class MainActivity extends AppCompatActivity {
                 //Log.e("UNDERSOCRE", prefsArtistNameUnderscore);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
                 startActivity(browserIntent);
+            }
+        });
+        paintingImageIV.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                builder.setTitle("Image Download");
+                builder.setMessage("Are you sure you want to download this image?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(final DialogInterface dialog, int which) {
+                        final ProgressDialog imageDownload = new ProgressDialog(MainActivity.this);
+                        imageDownload.setMessage("\tDownloading...");
+                        imageDownload.setCancelable(false);
+                        imageDownload.show();
+                        String prefsPaintingImageClick = myPrefs.getString("IMAGE",null);
+                        final String prefsPaintingNameClick = myPrefs.getString("TITLE",null);
+                        Picasso.get()
+                                .load(prefsPaintingImageClick)
+                                .into(new Target() {
+                                          @Override
+                                          public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                              try {
+                                                  String root = Environment.getExternalStorageDirectory().toString();
+                                                  File myDir = new File(root + "/iART");
+
+                                                  if (!myDir.exists()) {
+                                                      myDir.mkdirs();
+                                                  }
+
+                                                  String name = prefsPaintingNameClick + ".jpg";
+                                                  myDir = new File(myDir, name);
+                                                  FileOutputStream out = new FileOutputStream(myDir);
+                                                  bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                                                  imageDownload.dismiss();
+                                              } catch(Exception e){
+                                                  // some action
+                                              }
+                                          }
+
+                                    @Override
+                                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                                        imageDownload.dismiss();
+                                    }
+
+                                          @Override
+                                          public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                          }
+                                      }
+                                );
+
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                return true;
             }
         });
     }
