@@ -9,6 +9,8 @@
     <string name="previousDesc">previous</string>
     <string name="nextDesc">next</string>
     <string name="information">This application was created using The Metropolitan Museum of Art API which is free and gives access to all of The Met’s Open Access data and to corresponding high resolution images that are in the public domain.\n\nThe Met Collection API provides access to images in the Museum\'s collection that it believes is in the public domain, and to certain other content that the Museum to which the Museum waives any copyright it might have, which images and content are designated on the Museum\'s website with an Open Access icon and are made available under a CC0 license.</string>
-    <string name="contactDeveloper">\n\nFor any bugs or suggestion please contact the developer at:</string>
-    <string name="email">\u0020alfisti21@gmail.com</string>
+    <string name="contactDeveloper">\n\nFor any bugs or suggestion please contact the developer at:\u0020</string>
+    <string name="email">\u0020<u>jellodevs@gmail.com</u></string>
+    <string name="instructions">-Long press on image to download\n-Single tap image to enlarge\n-Press on artist\'s name for more information\n-Use next/previous button to navigate through the collection</string>
+    <string name="updates">Initial Installation</string>
 </resources>

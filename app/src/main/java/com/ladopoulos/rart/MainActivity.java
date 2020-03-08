@@ -2,9 +2,8 @@ package com.ladopoulos.rart;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
+import com.ladopoulos.rart.BuildConfig;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,15 +15,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -39,21 +35,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,6 +92,61 @@ public class MainActivity extends AppCompatActivity {
         String currentCountSP = myPrefs.getString("CURRENT",null);
         final LinearLayout buttonsLayout = findViewById(R.id.linearLayout);
         final ScrollView infoMatrix = findViewById(R.id.scroll_View2);
+        String currentVersionCode = Integer.toString(BuildConfig.VERSION_CODE);
+
+        if (myPrefs.getBoolean("FIRST_RUN", true)) {
+            // Do first run stuff here
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+            builder1.setTitle("Instructions");
+            builder1.setMessage(getString(R.string.instructions));
+            builder1.setCancelable(true);
+            builder1.setPositiveButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder1.setOnCancelListener(
+                    new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            dialog.dismiss();
+                        }
+                    }
+            );
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+            myPrefs.edit().putBoolean("FIRST_RUN", false).apply();
+        }
+
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String versionCode = myPrefs.getString("versionCode", "");
+        Log.e("CURRENT VERSION CODE", currentVersionCode);
+        Log.e("VERSION CODE", versionCode);
+        try {
+            if (!versionCode.matches(currentVersionCode)) {
+                //Log.e("CURRENT VERSION CODE", "MPIKA");
+                myPrefs.edit().putString("versionCode", currentVersionCode).apply();
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        //set icon
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        //set title
+                        .setTitle("Updates")
+                        //set message
+                        .setMessage(getString(R.string.updates))
+                        //set positive button
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //set what would happen when positive button is clicked
+                            }
+                        })
+                        .show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         if (prefsPaintingImage == null && prefsPaintingName == null && prefsArtistName == null
                 && prefsPaintingYear == null && prefsCulture == null && allTimeTotal == null && currentCountSP == null) {
