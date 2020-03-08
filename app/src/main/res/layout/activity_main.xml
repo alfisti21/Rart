@@ -7,7 +7,7 @@
     android:background="@color/softGrey"
     tools:context=".MainActivity">
 
-    
+
 
     <ImageView
         android:id="@+id/painting"
@@ -139,6 +139,20 @@
                 android:fontFamily="cursive"
                 android:textColor="@color/black"
                 android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/additionalInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="cursive"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="@string/more_information"/>
         </TableRow>
     </TableLayout>
         </LinearLayout>

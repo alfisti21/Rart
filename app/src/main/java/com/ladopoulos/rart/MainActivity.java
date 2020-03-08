@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView artistNameTV = findViewById(R.id.artistName);
         TextView paintingYearTV = findViewById(R.id.paintingYear);
         TextView cultureTV = findViewById(R.id.culture);
+        TextView additionalInfo = findViewById(R.id.additionalInfo);
         final TextView maxTV = findViewById(R.id.total);
         final TextView currentCountTV = findViewById(R.id.alreadyViewed);
         final ImageView paintingImageIV = findViewById(R.id.painting);
@@ -160,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
             artistNameTV.setText(prefsArtistName);
             artistNameTV.setTextColor(Color.parseColor("#0000ff"));
             artistNameTV.setPaintFlags(artistNameTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            additionalInfo.setTextColor(Color.parseColor("#0000ff"));
+            additionalInfo.setPaintFlags(additionalInfo.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             paintingYearTV.setText(prefsPaintingYear);
             cultureTV.setText(prefsCulture);
             maxTV.setText(allTimeTotal);
@@ -216,6 +219,12 @@ public class MainActivity extends AppCompatActivity {
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
                 }
+            }
+        });
+        additionalInfo.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MoreInfoActivity.class);
+                startActivity(intent);
             }
         });
         paintingImageIV.setOnLongClickListener(new View.OnLongClickListener() {
