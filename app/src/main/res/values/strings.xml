@@ -2,7 +2,7 @@
     <string name="app_name">iART</string>
     <string name="readPainting">Painting</string>
     <string name="notAvailable">Not Available</string>
-    <string name="painting_name">Art-work Name:</string>
+    <string name="painting_name">Art-work Name:\u0020</string>
     <string name="artist_name">Artist Name:</string>
     <string name="year_created">Year Created:</string>
     <string name="culture">Culture:</string>

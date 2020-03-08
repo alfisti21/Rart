@@ -13,11 +13,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -104,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             paintingNameTV.setText(prefsPaintingName);
             artistNameTV.setText(prefsArtistName);
+            artistNameTV.setTextColor(Color.parseColor("#0000ff"));
+            artistNameTV.setPaintFlags(artistNameTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             paintingYearTV.setText(prefsPaintingYear);
             cultureTV.setText(prefsCulture);
             maxTV.setText(allTimeTotal);
@@ -142,10 +146,16 @@ public class MainActivity extends AppCompatActivity {
         artistNameTV.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String prefsArtistNameClick = myPrefs.getString("ARTISTNAME",null);
+                if (!prefsArtistNameClick.matches("")){
                 String prefsArtistNameUnderscore = prefsArtistNameClick.replace(" ", "_");
                 //Log.e("UNDERSOCRE", prefsArtistNameUnderscore);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
                 startActivity(browserIntent);
+                }else{
+                    Toast toast = Toast.makeText(MainActivity.this,"Artist Unknown", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
             }
         });
         paintingImageIV.setOnLongClickListener(new View.OnLongClickListener() {
@@ -341,6 +351,8 @@ public class MainActivity extends AppCompatActivity {
                                     }else{
                                         editor.putString("ARTISTNAME", (response.getString("artistDisplayName")));
                                         artistNameFTV.setText(response.getString("artistDisplayName"));
+                                        artistNameFTV.setTextColor(Color.parseColor("#0000ff"));
+                                        artistNameFTV.setPaintFlags(artistNameFTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
                                     }
 
                                     if(response.getString("objectEndDate").matches("")){
@@ -463,8 +475,9 @@ public class MainActivity extends AppCompatActivity {
                                     artistNameFTV.setText(R.string.notAvailable);
                                 }else{
                                     editor.putString("ARTISTNAME", (response.getString("artistDisplayName")));
-                                    artistNameFTV.setTextColor(Color.parseColor("#000000"));
                                     artistNameFTV.setText(response.getString("artistDisplayName"));
+                                    artistNameFTV.setTextColor(Color.parseColor("#0000ff"));
+                                    artistNameFTV.setPaintFlags(artistNameFTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
                                 }
 
                                 if(response.getString("objectEndDate").matches("")){
@@ -593,8 +606,9 @@ public class MainActivity extends AppCompatActivity {
                                     artistNameFTV.setText(R.string.notAvailable);
                                 }else{
                                     editor.putString("ARTISTNAME", (response.getString("artistDisplayName")));
-                                    artistNameFTV.setTextColor(Color.parseColor("#000000"));
                                     artistNameFTV.setText(response.getString("artistDisplayName"));
+                                    artistNameFTV.setTextColor(Color.parseColor("#0000ff"));
+                                    artistNameFTV.setPaintFlags(artistNameFTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
                                 }
 
                                 if(response.getString("objectEndDate").matches("")){
