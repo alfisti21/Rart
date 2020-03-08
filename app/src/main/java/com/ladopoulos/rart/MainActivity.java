@@ -122,11 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         String versionCode = myPrefs.getString("versionCode", "");
-        Log.e("CURRENT VERSION CODE", currentVersionCode);
-        Log.e("VERSION CODE", versionCode);
         try {
             if (!versionCode.matches(currentVersionCode)) {
-                //Log.e("CURRENT VERSION CODE", "MPIKA");
                 myPrefs.edit().putString("versionCode", currentVersionCode).apply();
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
                         //set icon
@@ -201,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
                 String prefsArtistNameClick = myPrefs.getString("ARTISTNAME",null);
                 if (!prefsArtistNameClick.matches("")){
                 String prefsArtistNameUnderscore = prefsArtistNameClick.replace(" ", "_");
-                //Log.e("UNDERSOCRE", prefsArtistNameUnderscore);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
                 startActivity(browserIntent);
                 }else{
@@ -343,7 +339,6 @@ public class MainActivity extends AppCompatActivity {
                     (Request.Method.GET, urlPaintingsWithPictures, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            //Log.e("RESPONSE",response.toString());
                             if(response.length()==0){
                                 Toast toast = Toast.makeText(MainActivity.this,"0 Response", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -359,7 +354,6 @@ public class MainActivity extends AppCompatActivity {
                                     editor.apply();
                                     pdIDs.dismiss();
                                 } catch (JSONException e) {
-                                    Log.e("ERROR", e.toString());
                                     e.printStackTrace();
                                 }
                             }
@@ -419,13 +413,11 @@ public class MainActivity extends AppCompatActivity {
                 (Request.Method.GET, urlPaintingDetails, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            //Log.e("RESPONSE",response.toString());
                             if(response.length()==0){
                                 Toast toast = Toast.makeText(MainActivity.this,"0 Response", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                                 toast.show();
                             } else {
-                                //Log.e("PAINTING DETAILS", response.toString());
                                 try {
                                     myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = myPrefs.edit();
@@ -543,13 +535,11 @@ public class MainActivity extends AppCompatActivity {
                 (Request.Method.GET, urlPaintingDetails, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //Log.e("RESPONSE",response.toString());
                         if(response.length()==0){
                             Toast toast = Toast.makeText(MainActivity.this,"0 Response", Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                             toast.show();
                         } else {
-                            //Log.e("PAINTING DETAILS", response.toString());
                             try {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
@@ -674,13 +664,11 @@ public class MainActivity extends AppCompatActivity {
                 (Request.Method.GET, urlPaintingDetails, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //Log.e("RESPONSE",response.toString());
                         if(response.length()==0){
                             Toast toast = Toast.makeText(MainActivity.this,"0 Response", Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                             toast.show();
                         } else {
-                            //Log.e("PAINTING DETAILS", response.toString());
                             try {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
