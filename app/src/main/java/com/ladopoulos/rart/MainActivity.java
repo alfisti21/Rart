@@ -442,6 +442,13 @@ public class MainActivity extends AppCompatActivity {
                                     myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = myPrefs.edit();
                                     editor.putString("IMAGE", response.getString("primaryImage"));
+                                    editor.putString("MEDIUM", response.getString("medium"));
+                                    editor.putString("DEPARTMENT", response.getString("department"));
+                                    editor.putString("PERIOD", response.getString("period"));
+                                    editor.putString("CREDITS", response.getString("creditLine"));
+                                    editor.putString("CATEGORY", response.getString("classification"));
+                                    editor.putString("BIO", response.getString("artistDisplayBio"));
+                                    editor.putString("DIMENSIONS", response.getString("dimensions"));
                                     if(response.getString("title").matches("")){
                                         editor.putString("TITLE", "Not available");
                                         paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
@@ -564,6 +571,13 @@ public class MainActivity extends AppCompatActivity {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
                                 editor.putString("IMAGE", response.getString("primaryImage"));
+                                editor.putString("MEDIUM", response.getString("medium"));
+                                editor.putString("DEPARTMENT", response.getString("department"));
+                                editor.putString("PERIOD", response.getString("period"));
+                                editor.putString("CREDITS", response.getString("creditLine"));
+                                editor.putString("CATEGORY", response.getString("classification"));
+                                editor.putString("BIO", response.getString("artistDisplayBio"));
+                                editor.putString("DIMENSIONS", response.getString("dimensions"));
                                 if(response.getString("title").matches("")){
                                     editor.putString("TITLE", "Not available");
                                     paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
@@ -693,6 +707,13 @@ public class MainActivity extends AppCompatActivity {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
                                 editor.putString("IMAGE", response.getString("primaryImage"));
+                                editor.putString("MEDIUM", response.getString("medium"));
+                                editor.putString("DEPARTMENT", response.getString("department"));
+                                editor.putString("PERIOD", response.getString("period"));
+                                editor.putString("CREDITS", response.getString("creditLine"));
+                                editor.putString("CATEGORY", response.getString("classification"));
+                                editor.putString("BIO", response.getString("artistDisplayBio"));
+                                editor.putString("DIMENSIONS", response.getString("dimensions"));
                                 if(response.getString("title").matches("")){
                                     editor.putString("TITLE", "Not available");
                                     paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
