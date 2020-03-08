@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         final ImageView paintingImageIV = findViewById(R.id.painting);
         final ImageView previousArrow = findViewById(R.id.previous);
         final ImageView nextArrow = findViewById(R.id.next);
+        final ImageView infoImage = findViewById(R.id.info);
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         final String prefsPaintingImage = myPrefs.getString("IMAGE",null);
         final String prefsPaintingName = myPrefs.getString("TITLE",null);
@@ -250,6 +251,31 @@ public class MainActivity extends AppCompatActivity {
                     infoMatrix.setVisibility(View.VISIBLE);
                     expanded = false;
                 }
+            }
+        });
+        infoImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                builder1.setTitle("API Info");
+                builder1.setMessage(getString(R.string.information)+getString(R.string.contactDeveloper)+getString(R.string.email));
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder1.setOnCancelListener(
+                        new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                dialog.dismiss();
+                            }
+                        }
+                );
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
             }
         });
     }

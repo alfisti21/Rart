@@ -54,7 +54,7 @@
                 android:fontFamily="cursive"
                 android:text="@string/painting_name"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/paintingName"
@@ -64,7 +64,7 @@
                 android:gravity="end"
                 android:fontFamily="cursive"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
         </TableRow>
 
         <TableRow
@@ -78,7 +78,7 @@
                 android:fontFamily="cursive"
                 android:text="@string/artist_name"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/artistName"
@@ -88,7 +88,7 @@
                 android:gravity="end"
                 android:fontFamily="cursive"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
         </TableRow>
 
         <TableRow
@@ -102,7 +102,7 @@
                 android:fontFamily="cursive"
                 android:text="@string/year_created"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/paintingYear"
@@ -112,7 +112,7 @@
                 android:gravity="end"
                 android:fontFamily="cursive"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
         </TableRow>
 
         <TableRow
@@ -126,7 +126,7 @@
                 android:fontFamily="cursive"
                 android:text="@string/culture"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/culture"
@@ -136,7 +136,7 @@
                 android:gravity="end"
                 android:fontFamily="cursive"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
         </TableRow>
     </TableLayout>
         </LinearLayout>
@@ -234,5 +234,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/developer"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@drawable/info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
