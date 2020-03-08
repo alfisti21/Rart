@@ -1,7 +1,6 @@
 package com.ladopoulos.rart;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
