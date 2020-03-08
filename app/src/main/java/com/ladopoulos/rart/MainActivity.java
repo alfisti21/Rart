@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -67,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         TextView paintingNameTV = findViewById(R.id.paintingName);
-        TextView artistNameTV = findViewById(R.id.artistName);
+        final TextView artistNameTV = findViewById(R.id.artistName);
         TextView paintingYearTV = findViewById(R.id.paintingYear);
         TextView cultureTV = findViewById(R.id.culture);
+        final TextView maxTV = findViewById(R.id.total);
+        final TextView currentCountTV = findViewById(R.id.alreadyViewed);
         ImageView paintingImageIV = findViewById(R.id.painting);
         ImageView previousArrow = findViewById(R.id.previous);
         ImageView nextArrow = findViewById(R.id.next);
@@ -79,17 +82,24 @@ public class MainActivity extends AppCompatActivity {
         String prefsArtistName = myPrefs.getString("ARTISTNAME",null);
         String prefsPaintingYear = myPrefs.getString("DATE",null);
         String prefsCulture = myPrefs.getString("CULTURE",null);
+        String allTimeTotal = myPrefs.getString("TOTAL",null);
+        String currentCountSP = myPrefs.getString("CURRENT",null);
 
-        if (prefsPaintingImage == null && prefsPaintingName == null && prefsArtistName == null && prefsPaintingYear == null && prefsCulture == null) {
+        if (prefsPaintingImage == null && prefsPaintingName == null && prefsArtistName == null
+                && prefsPaintingYear == null && prefsCulture == null && allTimeTotal == null && currentCountSP == null) {
             paintingNameTV.setText("-");
             artistNameTV.setText("-");
             paintingYearTV.setText("-");
             cultureTV.setText("-");
+            maxTV.setText("-");
+            currentCountTV.setText("-");
         } else {
             paintingNameTV.setText(prefsPaintingName);
             artistNameTV.setText(prefsArtistName);
             paintingYearTV.setText(prefsPaintingYear);
             cultureTV.setText(prefsCulture);
+            maxTV.setText(allTimeTotal);
+            currentCountTV.setText(currentCountSP);
             Picasso.get().load(prefsPaintingImage).noFade().into(paintingImageIV);
             // handle the value
         }
@@ -119,6 +129,15 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        artistNameTV.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String prefsArtistNameClick = myPrefs.getString("ARTISTNAME",null);
+                String prefsArtistNameUnderscore = prefsArtistNameClick.replace(" ", "_");
+                //Log.e("UNDERSOCRE", prefsArtistNameUnderscore);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
+                startActivity(browserIntent);
             }
         });
     }
@@ -189,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView artistNameFTV = findViewById(R.id.artistName);
         final TextView paintingYearFTV = findViewById(R.id.paintingYear);
         final TextView cultureFTV = findViewById(R.id.culture);
+        final TextView maxFTV = findViewById(R.id.total);
+        final TextView currentCountFTV = findViewById(R.id.alreadyViewed);
         final ImageView paintingImageFIV = findViewById(R.id.painting);
         JSONArray jsonArray;
         final ProgressDialog pdDetails = new ProgressDialog(MainActivity.this);
@@ -220,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                                 toast.show();
                             } else {
-                                Log.e("PAINTING DETAILS", response.toString());
+                                //Log.e("PAINTING DETAILS", response.toString());
                                 try {
                                     myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = myPrefs.edit();
@@ -268,6 +289,9 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+                                String maxStr = myPrefs.getString("TOTAL",null);
+                                maxFTV.setText(maxStr);
+                                currentCountFTV.setText("1");
                                 pdDetails.dismiss();
                             }
                         }
@@ -299,6 +323,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView artistNameFTV = findViewById(R.id.artistName);
         final TextView paintingYearFTV = findViewById(R.id.paintingYear);
         final TextView cultureFTV = findViewById(R.id.culture);
+        final TextView maxFTV = findViewById(R.id.total);
+        final TextView currentCountFTV = findViewById(R.id.alreadyViewed);
         final ImageView paintingImageFIV = findViewById(R.id.painting);
         JSONArray jsonArray;
         final ProgressDialog pdDetails = new ProgressDialog(MainActivity.this);
@@ -311,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         String nextString = myPrefs.getString("NEXT", null);
         assert nextString != null;
-        int nextInt = Integer.parseInt(nextString);
+        final int nextInt = Integer.parseInt(nextString);
 
         InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
         int size = is.available();
@@ -337,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
                             toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                             toast.show();
                         } else {
-                            Log.e("PAINTING DETAILS", response.toString());
+                            //Log.e("PAINTING DETAILS", response.toString());
                             try {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
@@ -389,6 +415,13 @@ public class MainActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            String maxStr = myPrefs.getString("TOTAL",null);
+                            maxFTV.setText(maxStr);
+                            currentCountFTV.setText(String.valueOf(nextInt+2));
+                            myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = myPrefs.edit();
+                            editor.putString("CURRENT", String.valueOf(nextInt+2));
+                            editor.apply();
                             pdDetails.dismiss();
                         }
                     }
@@ -420,6 +453,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView artistNameFTV = findViewById(R.id.artistName);
         final TextView paintingYearFTV = findViewById(R.id.paintingYear);
         final TextView cultureFTV = findViewById(R.id.culture);
+        final TextView maxFTV = findViewById(R.id.total);
+        final TextView currentCountFTV = findViewById(R.id.alreadyViewed);
         final ImageView paintingImageFIV = findViewById(R.id.painting);
         JSONArray jsonArray;
         final ProgressDialog pdDetails = new ProgressDialog(MainActivity.this);
@@ -432,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         String nextString = myPrefs.getString("NEXT", null);
         assert nextString != null;
-        int nextInt = Integer.parseInt(nextString);
+        final int nextInt = Integer.parseInt(nextString);
 
         InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
         int size = is.available();
@@ -458,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
                             toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                             toast.show();
                         } else {
-                            Log.e("PAINTING DETAILS", response.toString());
+                            //Log.e("PAINTING DETAILS", response.toString());
                             try {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
@@ -510,6 +545,13 @@ public class MainActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            String maxStr = myPrefs.getString("TOTAL",null);
+                            maxFTV.setText(maxStr);
+                            currentCountFTV.setText(String.valueOf(nextInt));
+                            myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = myPrefs.edit();
+                            editor.putString("CURRENT", String.valueOf(nextInt));
+                            editor.apply();
                             pdDetails.dismiss();
                         }
                     }
