@@ -188,10 +188,19 @@ public class MainActivity extends AppCompatActivity {
         });
         nextArrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                try {
-                    NextPaintingDetails();
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
+                String previousStringZero = myPrefs.getString("NEXT", null);
+                assert previousStringZero != null;
+                int nextIntZero = Integer.parseInt(previousStringZero);
+                if(nextIntZero>196210){
+                    Toast toast = Toast.makeText(MainActivity.this,"This is the beginning", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }else{
+                    try {
+                        NextPaintingDetails();
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -778,9 +787,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.favorites:
-                Toast.makeText(this, "Favorites selected", Toast.LENGTH_SHORT)
-                        .show();
+            case R.id.favorite:
+            case R.id.favoritesList:
+            case R.id.quiz:
+                Toast toastFavorite = Toast.makeText(MainActivity.this,"In Development...", Toast.LENGTH_SHORT);
+                toastFavorite.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                toastFavorite.show();
                 break;
             default:
                 break;

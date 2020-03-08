@@ -16,10 +16,6 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CONTACTS_TABLE_NAME = "paintingIDs";
     public static final String CONTACTS_COLUMN_ID = "id";
     private static final String CONTACTS_COLUMN_NAME = "paintingID";
-    public static final String CONTACTS_COLUMN_EMAIL = "email";
-    public static final String CONTACTS_COLUMN_STREET = "street";
-    public static final String CONTACTS_COLUMN_CITY = "place";
-    public static final String CONTACTS_COLUMN_PHONE = "phone";
     private HashMap hp;
 
     public DBHelper(Context context) {
@@ -28,16 +24,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
         db.execSQL(
-                "create table contacts " +
-                        "(id integer primary key, name text,phone text,email text, street text,place text)"
+                "create table paintingIDs " +
+                        "(id integer primary key, paintingID text)"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS contacts");
         onCreate(db);
     }
