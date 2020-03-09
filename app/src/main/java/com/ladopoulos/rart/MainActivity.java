@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         String versionCode = myPrefs.getString("versionCode", "");
         try {
             if (!versionCode.matches(currentVersionCode)) {
-                int unicode = 0x1F680;
+                int unicode = 0x1F609;
                 String emoji = getEmojiByUnicode(unicode);
                 myPrefs.edit().putString("versionCode", currentVersionCode).apply();
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
