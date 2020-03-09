@@ -17,7 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         setContentView(R.layout.activity_main);
 
-        File file = new File(Environment.getExternalStorageDirectory() + "/" + "paintingIDs.json");
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + ".paintingIDs.json");
         if (!file.exists()) {
             myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+            if(myPrefs.getString("NEXT", null)==null){
             SharedPreferences.Editor editor = myPrefs.edit();
             editor.putString("NEXT", "0");
             editor.apply();
+            }
             PaintingIDs();
         }
     }
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         final ImageView previousArrow = findViewById(R.id.previous);
         final ImageView nextArrow = findViewById(R.id.next);
         final ImageView infoImage = findViewById(R.id.info);
+        final TextView developerText = findViewById(R.id.developer);
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         final String prefsPaintingImage = myPrefs.getString("IMAGE",null);
         final String prefsPaintingName = myPrefs.getString("TITLE",null);
@@ -96,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout buttonsLayout = findViewById(R.id.linearLayout);
         final ScrollView infoMatrix = findViewById(R.id.scroll_View2);
         String currentVersionCode = Integer.toString(BuildConfig.VERSION_CODE);
+
+        //AppRater.app_launched(this);
 
         if (myPrefs.getBoolean("FIRST_RUN", true)) {
             // Do first run stuff here
@@ -127,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         String versionCode = myPrefs.getString("versionCode", "");
         try {
             if (!versionCode.matches(currentVersionCode)) {
+                int unicode = 0x1F680;
+                String emoji = getEmojiByUnicode(unicode);
                 myPrefs.edit().putString("versionCode", currentVersionCode).apply();
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
                         //set icon
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         //set title
                         .setTitle("Updates")
                         //set message
-                        .setMessage(getString(R.string.updates))
+                        .setMessage(getString(R.string.updates) + "\n" + emoji)
                         //set positive button
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -263,6 +269,9 @@ public class MainActivity extends AppCompatActivity {
                                                   FileOutputStream out = new FileOutputStream(myDir);
                                                   bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
                                                   imageDownload.dismiss();
+                                                  Toast toast = Toast.makeText(MainActivity.this,"Download Complete", Toast.LENGTH_LONG);
+                                                  toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                                                  toast.show();
                                               } catch(Exception e){
                                                   // some action
                                               }
@@ -305,12 +314,16 @@ public class MainActivity extends AppCompatActivity {
                     paintingImageIV.requestLayout();
                     buttonsLayout.setVisibility(View.GONE);
                     infoMatrix.setVisibility(View.GONE);
+                    infoImage.setVisibility(View.GONE);
+                    developerText.setVisibility(View.GONE);
                     expanded = true;
                 }else{
                     paintingImageIV.getLayoutParams().height = 0;
                     paintingImageIV.requestLayout();
                     buttonsLayout.setVisibility(View.VISIBLE);
                     infoMatrix.setVisibility(View.VISIBLE);
+                    infoImage.setVisibility(View.VISIBLE);
+                    developerText.setVisibility(View.VISIBLE);
                     expanded = false;
                 }
             }
@@ -367,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                     int total = (int) response.get("total");
                                     JSONArray quote = response.getJSONArray("objectIDs");
-                                    mCreateAndSaveFile("paintingIDs.json", quote.toString());
+                                    mCreateAndSaveFile(".paintingIDs.json", quote.toString());
                                     myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = myPrefs.edit();
                                     editor.putString("TOTAL", String.valueOf(total));
@@ -418,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
         pdDetails.show();
 
 
-            InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
+            InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+".paintingIDs.json");
             int size = is.available();
             byte[] data = new byte[size];
             is.read(data);
@@ -454,8 +467,8 @@ public class MainActivity extends AppCompatActivity {
                                         paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
                                         paintingNameFTV.setText(R.string.notAvailable);
                                     }else{
-                                        editor.putString("TITLE", response.getString("title"));
-                                        paintingNameFTV.setText(response.getString("title"));
+                                        editor.putString("TITLE", response.getString("title").replace("[", "").replace("]", ""));
+                                        paintingNameFTV.setText(response.getString("title").replace("[", "").replace("]", ""));
                                     }
 
                                     if(response.getString("artistDisplayName").matches("")){
@@ -544,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
         assert nextString != null;
         final int nextInt = Integer.parseInt(nextString);
 
-        InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
+        InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+".paintingIDs.json");
         int size = is.available();
         byte[] data = new byte[size];
         is.read(data);
@@ -583,9 +596,8 @@ public class MainActivity extends AppCompatActivity {
                                     paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
                                     paintingNameFTV.setText(R.string.notAvailable);
                                 }else{
-                                    editor.putString("TITLE", response.getString("title"));
-                                    paintingNameFTV.setTextColor(Color.parseColor("#000000"));
-                                    paintingNameFTV.setText(response.getString("title"));
+                                    editor.putString("TITLE", response.getString("title").replace("[", "").replace("]", ""));
+                                    paintingNameFTV.setText(response.getString("title").replace("[", "").replace("]", ""));
                                 }
 
                                 if(response.getString("artistDisplayName").matches("")){
@@ -680,7 +692,7 @@ public class MainActivity extends AppCompatActivity {
         assert nextString != null;
         final int nextInt = Integer.parseInt(nextString);
 
-        InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+"paintingIDs.json");
+        InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().toString()+"/"+".paintingIDs.json");
         int size = is.available();
         byte[] data = new byte[size];
         is.read(data);
@@ -719,9 +731,8 @@ public class MainActivity extends AppCompatActivity {
                                     paintingNameFTV.setTextColor(Color.parseColor("#ff0000"));
                                     paintingNameFTV.setText(R.string.notAvailable);
                                 }else{
-                                    editor.putString("TITLE", response.getString("title"));
-                                    paintingNameFTV.setTextColor(Color.parseColor("#000000"));
-                                    paintingNameFTV.setText(response.getString("title"));
+                                    editor.putString("TITLE", response.getString("title").replace("[", "").replace("]", ""));
+                                    paintingNameFTV.setText(response.getString("title").replace("[", "").replace("]", ""));
                                 }
 
                                 if(response.getString("artistDisplayName").matches("")){
@@ -801,10 +812,17 @@ public class MainActivity extends AppCompatActivity {
             file.write(mJsonResponse);
             file.flush();
             file.close();
+            myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+            if(myPrefs.getString("NEXT", null)==null){
             FirstPaintingDetails();
+            }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 
     @Override
@@ -817,12 +835,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.favorite:
+            /*case R.id.favorite:
             case R.id.favoritesList:
             case R.id.quiz:
                 Toast toastFavorite = Toast.makeText(MainActivity.this,"In Development...", Toast.LENGTH_SHORT);
                 toastFavorite.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toastFavorite.show();
+                break;*/
+            case R.id.share:
+                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                String toShare = "\"" + myPrefs.getString("TITLE", null) + "\"" + "\n" + myPrefs.getString("ARTISTNAME", null) + "\n" +myPrefs.getString("IMAGE", null);
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, toShare);
+                startActivity(Intent.createChooser(shareIntent, "Share"));
+                startActivity(shareIntent);
                 break;
             default:
                 break;

@@ -42,7 +42,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="cursive"
-                        android:text="Medium:"
+                        android:text="Medium: "
                         android:textColor="@color/black"
                         android:textSize="25sp" />
 
@@ -66,7 +66,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="cursive"
-                        android:text="Department:"
+                        android:text="Department: "
                         android:textColor="@color/black"
                         android:textSize="25sp" />
 
@@ -90,7 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="cursive"
-                        android:text="Period:"
+                        android:text="Period: "
                         android:textColor="@color/black"
                         android:textSize="25sp" />
 
@@ -114,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="cursive"
-                        android:text="Credit:"
+                        android:text="Credit: "
                         android:textColor="@color/black"
                         android:textSize="25sp" />
 
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="cursive"
-                        android:text="Category:"
+                        android:text="Category: "
                         android:textColor="@color/black"
                         android:textSize="25sp" />
 
@@ -162,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="cursive"
-                        android:text="Artist Bio:"
+                        android:text="Artist Bio: "
                         android:textColor="@color/black"
                         android:textSize="25sp" />
 
@@ -186,7 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="cursive"
-                        android:text="Dimensions:"
+                        android:text="Dimensions: "
                         android:textColor="@color/black"
                         android:textSize="25sp" />
 
