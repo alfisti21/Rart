@@ -217,9 +217,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String prefsArtistNameClick = myPrefs.getString("ARTISTNAME",null);
                 if (!prefsArtistNameClick.matches("")){
+                    if(prefsArtistNameClick.matches("Not available")){
+                        Toast toast = Toast.makeText(MainActivity.this,"Artist not available at the moment", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    }else{
                 String prefsArtistNameUnderscore = prefsArtistNameClick.replace(" ", "_");
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
                 startActivity(browserIntent);
+                    }
                 }else{
                     Toast toast = Toast.makeText(MainActivity.this,"Artist Unknown", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -468,6 +474,7 @@ public class MainActivity extends AppCompatActivity {
                                         paintingNameFTV.setText(R.string.notAvailable);
                                     }else{
                                         editor.putString("TITLE", response.getString("title").replace("[", "").replace("]", ""));
+                                        paintingNameFTV.setTextColor(Color.parseColor("#000000"));
                                         paintingNameFTV.setText(response.getString("title").replace("[", "").replace("]", ""));
                                     }
 
@@ -488,6 +495,7 @@ public class MainActivity extends AppCompatActivity {
                                         paintingYearFTV.setText(R.string.notAvailable);
                                     }else{
                                         editor.putString("DATE", (response.getString("objectEndDate")));
+                                        paintingYearFTV.setTextColor(Color.parseColor("#000000"));
                                         paintingYearFTV.setText(response.getString("objectEndDate"));
                                     }
 
@@ -497,6 +505,7 @@ public class MainActivity extends AppCompatActivity {
                                         cultureFTV.setText(R.string.notAvailable);
                                     }else{
                                         editor.putString("CULTURE", (response.getString("culture")));
+                                        cultureFTV.setTextColor(Color.parseColor("#000000"));
                                         cultureFTV.setText(response.getString("culture"));
                                     }
 
@@ -597,6 +606,7 @@ public class MainActivity extends AppCompatActivity {
                                     paintingNameFTV.setText(R.string.notAvailable);
                                 }else{
                                     editor.putString("TITLE", response.getString("title").replace("[", "").replace("]", ""));
+                                    paintingNameFTV.setTextColor(Color.parseColor("#000000"));
                                     paintingNameFTV.setText(response.getString("title").replace("[", "").replace("]", ""));
                                 }
 
@@ -732,6 +742,7 @@ public class MainActivity extends AppCompatActivity {
                                     paintingNameFTV.setText(R.string.notAvailable);
                                 }else{
                                     editor.putString("TITLE", response.getString("title").replace("[", "").replace("]", ""));
+                                    paintingNameFTV.setTextColor(Color.parseColor("#000000"));
                                     paintingNameFTV.setText(response.getString("title").replace("[", "").replace("]", ""));
                                 }
 
@@ -813,7 +824,7 @@ public class MainActivity extends AppCompatActivity {
             file.flush();
             file.close();
             myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
-            if(myPrefs.getString("NEXT", null)==null){
+            if(myPrefs.getString("NEXT", null).matches("0")){
             FirstPaintingDetails();
             }
         } catch (IOException | JSONException e) {
