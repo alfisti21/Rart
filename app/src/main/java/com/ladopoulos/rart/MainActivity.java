@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         final ScrollView infoMatrix = findViewById(R.id.scroll_View2);
         String currentVersionCode = Integer.toString(BuildConfig.VERSION_CODE);
 
-        //AppRater.app_launched(this);
+        AppRater.app_launched(this);
 
         if (myPrefs.getBoolean("FIRST_RUN", true)) {
             // Do first run stuff here
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                         //set message
                         .setMessage(getString(R.string.updates) + "\n" + emoji)
                         //set positive button
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("GOT IT", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //set what would happen when positive button is clicked

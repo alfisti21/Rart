@@ -18,4 +18,8 @@
     <string name="quiz">Take Quiz!</string>
     <string name="more_information">More Information</string>
     <string name="share">Share</string>
+    <string name="remind_me_later">Remind me later</string>
+    <string name="noThanks">No, thanks</string>
+    <string name="rate">\"Rate \"</string>
+    <string name="rateText">If you enjoy using iART, please take a moment to rate it. Thanks for your support!</string>
 </resources>
