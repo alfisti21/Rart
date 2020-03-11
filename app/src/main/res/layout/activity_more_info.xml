@@ -41,20 +41,20 @@
                         android:id="@+id/textView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:text="Medium: "
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:gravity="end"
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
                 </TableRow>
 
                 <TableRow
@@ -65,20 +65,20 @@
                         android:id="@+id/textView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:text="Department: "
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/department"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:gravity="end"
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
                 </TableRow>
 
                 <TableRow
@@ -89,20 +89,20 @@
                         android:id="@+id/textView7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:text="Period: "
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/period"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:gravity="end"
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
                 </TableRow>
 
                 <TableRow
@@ -113,20 +113,20 @@
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:text="Credit: "
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/credit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:gravity="end"
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
                 </TableRow>
 
                 <TableRow
@@ -137,20 +137,20 @@
                         android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:text="Category: "
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:gravity="end"
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
                 </TableRow>
 
                 <TableRow
@@ -161,20 +161,20 @@
                         android:id="@+id/textView10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:text="Artist Bio: "
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/bio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:gravity="end"
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
                 </TableRow>
 
                 <TableRow
@@ -185,20 +185,20 @@
                         android:id="@+id/textView11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:text="Dimensions: "
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/dimensions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="cursive"
+                        android:fontFamily="@font/kalam_light"
                         android:gravity="end"
                         android:textColor="@color/black"
-                        android:textSize="25sp" />
+                        android:textSize="22sp" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>
