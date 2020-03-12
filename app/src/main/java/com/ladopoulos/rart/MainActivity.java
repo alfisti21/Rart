@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView developerText = findViewById(R.id.developer);
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         final String prefsPaintingImage = myPrefs.getString("IMAGE",null);
+        final String prefsPaintingImageSmall = myPrefs.getString("IMAGE_SMALL",null);
         final String prefsPaintingName = myPrefs.getString("TITLE",null);
         String prefsArtistName = myPrefs.getString("ARTISTNAME",null);
         String prefsPaintingYear = myPrefs.getString("DATE",null);
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (prefsPaintingImage == null && prefsPaintingName == null && prefsArtistName == null
+        if (prefsPaintingImageSmall == null && prefsPaintingName == null && prefsArtistName == null
                 && prefsPaintingYear == null && prefsCulture == null && allTimeTotal == null && currentCountSP == null) {
             paintingNameTV.setText("-");
             artistNameTV.setText("-");
@@ -173,8 +174,7 @@ public class MainActivity extends AppCompatActivity {
             cultureTV.setText(prefsCulture);
             maxTV.setText(allTimeTotal);
             currentCountTV.setText(currentCountSP);
-            Picasso.get().load(prefsPaintingImage).noFade().into(paintingImageIV);
-            // handle the value
+            Picasso.get().load(prefsPaintingImageSmall).noFade().into(paintingImageIV);
         }
 
         previousArrow.setOnClickListener(new View.OnClickListener() {
@@ -246,15 +246,11 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
                 builder.setTitle("Image Download");
-                builder.setMessage("Are you sure you want to download this image?");
+                builder.setMessage("Are you sure you want to download this image in full size?");
 
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                     public void onClick(final DialogInterface dialog, int which) {
-                        final ProgressDialog imageDownload = new ProgressDialog(MainActivity.this);
-                        imageDownload.setMessage("\tDownloading...");
-                        imageDownload.setCancelable(false);
-                        imageDownload.show();
                         String prefsPaintingImageClick = myPrefs.getString("IMAGE",null);
                         final String prefsPaintingNameClick = myPrefs.getString("TITLE",null);
                         Picasso.get()
@@ -274,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
                                                   myDir = new File(myDir, name);
                                                   FileOutputStream out = new FileOutputStream(myDir);
                                                   bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                                                  imageDownload.dismiss();
                                                   Toast toast = Toast.makeText(MainActivity.this,"Download Complete", Toast.LENGTH_LONG);
                                                   toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                                                   toast.show();
@@ -285,7 +280,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                        imageDownload.dismiss();
                                     }
 
                                           @Override
@@ -461,6 +455,7 @@ public class MainActivity extends AppCompatActivity {
                                     myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = myPrefs.edit();
                                     editor.putString("IMAGE", response.getString("primaryImage"));
+                                    editor.putString("IMAGE_SMALL", response.getString("primaryImageSmall"));
                                     editor.putString("MEDIUM", response.getString("medium"));
                                     editor.putString("DEPARTMENT", response.getString("department"));
                                     editor.putString("PERIOD", response.getString("period"));
@@ -511,8 +506,8 @@ public class MainActivity extends AppCompatActivity {
 
                                     editor.apply();
 
-                                    String primaryImage = response.getString("primaryImage");
-                                    Picasso.get().load(primaryImage).noFade().into(paintingImageFIV);
+                                    String primaryImageSmall = response.getString("primaryImageSmall");
+                                    Picasso.get().load(primaryImageSmall).noFade().into(paintingImageFIV);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -593,6 +588,7 @@ public class MainActivity extends AppCompatActivity {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
                                 editor.putString("IMAGE", response.getString("primaryImage"));
+                                editor.putString("IMAGE_SMALL", response.getString("primaryImageSmall"));
                                 editor.putString("MEDIUM", response.getString("medium"));
                                 editor.putString("DEPARTMENT", response.getString("department"));
                                 editor.putString("PERIOD", response.getString("period"));
@@ -643,8 +639,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 editor.apply();
 
-                                String primaryImage = response.getString("primaryImage");
-                                Picasso.get().load(primaryImage).noFade().into(paintingImageFIV);
+                                String primaryImageSmall = response.getString("primaryImageSmall");
+                                Picasso.get().load(primaryImageSmall).noFade().into(paintingImageFIV);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -729,6 +725,7 @@ public class MainActivity extends AppCompatActivity {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = myPrefs.edit();
                                 editor.putString("IMAGE", response.getString("primaryImage"));
+                                editor.putString("IMAGE_SMALL", response.getString("primaryImageSmall"));
                                 editor.putString("MEDIUM", response.getString("medium"));
                                 editor.putString("DEPARTMENT", response.getString("department"));
                                 editor.putString("PERIOD", response.getString("period"));
@@ -779,8 +776,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 editor.apply();
 
-                                String primaryImage = response.getString("primaryImage");
-                                Picasso.get().load(primaryImage).noFade().into(paintingImageFIV);
+                                String primaryImageSmall = response.getString("primaryImageSmall");
+                                Picasso.get().load(primaryImageSmall).noFade().into(paintingImageFIV);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
