@@ -52,7 +52,7 @@ class AppRater {
         dialog.setTitle("Rate " + APP_TITLE);
 
         LinearLayout ll = new LinearLayout(mContext);
-        ll.setOrientation(LinearLayout.HORIZONTAL);
+        ll.setOrientation(LinearLayout.VERTICAL);
 
         TextView tv = new TextView(mContext);
         tv.setText(mContext.getString(R.string.rateText)+emoji);
