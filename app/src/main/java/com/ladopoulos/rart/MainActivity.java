@@ -222,9 +222,13 @@ public class MainActivity extends AppCompatActivity {
                         toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                     }else{
-                String prefsArtistNameUnderscore = prefsArtistNameClick.replace(" ", "_");
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
-                startActivity(browserIntent);
+                //String prefsArtistNameUnderscore = prefsArtistNameClick.replace(" ", "_");
+                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                intent.setClassName("com.google.android.googlequicksearchbox", "com.google.android.googlequicksearchbox.SearchActivity");
+                intent.putExtra("query", prefsArtistNameClick);
+                startActivity(intent);
+                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
+                //startActivity(browserIntent);
                     }
                 }else{
                     Toast toast = Toast.makeText(MainActivity.this,"Artist Unknown", Toast.LENGTH_SHORT);
