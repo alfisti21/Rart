@@ -5,14 +5,19 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import com.ladopoulos.rart.BuildConfig;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         setContentView(R.layout.activity_main);
+
+        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         File file = new File(Environment.getExternalStorageDirectory() + "/" + ".paintingIDs.json");
         if (!file.exists()) {
@@ -225,13 +232,10 @@ public class MainActivity extends AppCompatActivity {
                         toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                     }else{
-                //String prefsArtistNameUnderscore = prefsArtistNameClick.replace(" ", "_");
                 Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
                 intent.setClassName("com.google.android.googlequicksearchbox", "com.google.android.googlequicksearchbox.SearchActivity");
                 intent.putExtra("query", prefsArtistNameClick);
                 startActivity(intent);
-                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/" + prefsArtistNameUnderscore));
-                //startActivity(browserIntent);
                     }
                 }else{
                     Toast toast = Toast.makeText(MainActivity.this,"Artist Unknown", Toast.LENGTH_SHORT);
@@ -260,39 +264,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(final DialogInterface dialog, int which) {
                         String prefsPaintingImageClick = myPrefs.getString("IMAGE",null);
                         final String prefsPaintingNameClick = myPrefs.getString("TITLE",null);
-                        Target target = new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                try {
-                                    String root = Environment.getExternalStorageDirectory().toString();
-                                    File myDir = new File(root + "/iART");
 
-                                    if (!myDir.exists()) {
-                                        myDir.mkdirs();
-                                    }
-
-                                    String name = prefsPaintingNameClick + ".jpg";
-                                    myDir = new File(myDir, name);
-                                    FileOutputStream out = new FileOutputStream(myDir);
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                                    Toast toast = Toast.makeText(MainActivity.this,"Download Complete", Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toast.show();
-                                } catch(Exception e){
-                                    // some action
-                                }
-                            }
-
-                            @Override
-                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            }
-                        };
-
-                        Picasso.get().load(prefsPaintingImageClick).into(target);
+                        ImageDownload.downloadFile(prefsPaintingImageClick, prefsPaintingNameClick, MainActivity.this);
 
                         dialog.dismiss();
                     }
@@ -872,5 +845,21 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+    public BroadcastReceiver onComplete=new BroadcastReceiver() {
+        public void onReceive(Context ctxt, Intent intent) {
+            int unicode = 0x1F609;
+            String emoji = getEmojiByUnicode(unicode);
+            Toast toast = Toast.makeText(MainActivity.this, "Image Download\nCompleted"+emoji, Toast.LENGTH_LONG);
+            View view = toast.getView();
+            view.getBackground().setColorFilter(Color.parseColor("#29b8ff"), PorterDuff.Mode.SRC_IN);
+            TextView toastTextView = toast.getView().findViewById(android.R.id.message);
+            toastTextView.setGravity(Gravity.CENTER);
+            toastTextView.setTextColor(Color.parseColor("#FFFFFF"));
+            toastTextView.setTypeface(Typeface.DEFAULT_BOLD);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
+    };
 
 }
