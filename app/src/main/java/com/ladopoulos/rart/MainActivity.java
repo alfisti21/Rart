@@ -134,7 +134,9 @@ public class MainActivity extends AppCompatActivity {
             if (!versionCode.matches(currentVersionCode)) {
                 int unicode = 0x1F609;
                 String emoji = getEmojiByUnicode(unicode);
-                myPrefs.edit().putString("versionCode", currentVersionCode).apply();
+                myPrefs.edit().putString("versionCode", currentVersionCode)
+                        .putBoolean("dontshowagain", false).apply();
+
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
                         //set icon
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .show();
             }
+            AppRater.app_launched(this);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -216,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         artistNameTV.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String prefsArtistNameClick = myPrefs.getString("ARTISTNAME",null);
-                if (!prefsArtistNameClick.matches("")){
+                if (!prefsArtistNameClick.matches("") || prefsArtistNameClick.matches("Unknown")){
                     if(prefsArtistNameClick.matches("Not available")){
                         Toast toast = Toast.makeText(MainActivity.this,"Artist not available at the moment", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -257,40 +260,39 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(final DialogInterface dialog, int which) {
                         String prefsPaintingImageClick = myPrefs.getString("IMAGE",null);
                         final String prefsPaintingNameClick = myPrefs.getString("TITLE",null);
-                        Picasso.get()
-                                .load(prefsPaintingImageClick)
-                                .into(new Target() {
-                                          @Override
-                                          public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                              try {
-                                                  String root = Environment.getExternalStorageDirectory().toString();
-                                                  File myDir = new File(root + "/iART");
+                        Target target = new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                try {
+                                    String root = Environment.getExternalStorageDirectory().toString();
+                                    File myDir = new File(root + "/iART");
 
-                                                  if (!myDir.exists()) {
-                                                      myDir.mkdirs();
-                                                  }
-
-                                                  String name = prefsPaintingNameClick + ".jpg";
-                                                  myDir = new File(myDir, name);
-                                                  FileOutputStream out = new FileOutputStream(myDir);
-                                                  bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                                                  Toast toast = Toast.makeText(MainActivity.this,"Download Complete", Toast.LENGTH_LONG);
-                                                  toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                                                  toast.show();
-                                              } catch(Exception e){
-                                                  // some action
-                                              }
-                                          }
-
-                                    @Override
-                                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                                    if (!myDir.exists()) {
+                                        myDir.mkdirs();
                                     }
 
-                                          @Override
-                                          public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                          }
-                                      }
-                                );
+                                    String name = prefsPaintingNameClick + ".jpg";
+                                    myDir = new File(myDir, name);
+                                    FileOutputStream out = new FileOutputStream(myDir);
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                                    Toast toast = Toast.makeText(MainActivity.this,"Download Complete", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toast.show();
+                                } catch(Exception e){
+                                    // some action
+                                }
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            }
+                        };
+
+                        Picasso.get().load(prefsPaintingImageClick).into(target);
 
                         dialog.dismiss();
                     }
