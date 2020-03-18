@@ -66,6 +66,16 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         setContentView(R.layout.activity_main);
 
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        if (!myPrefs.contains("lastRun")){
+            enableNotification(null);
+        }
+        else {
+            recordRunTime();
+        }
+
+        startService(new Intent(this,  CheckRecentRun.class));
+
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         File file = new File(Environment.getExternalStorageDirectory() + "/" + ".paintingIDs.json");
@@ -160,8 +170,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         })
                         .show();
+                AppRater.app_launched(this);
             }
-            AppRater.app_launched(this);
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -311,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
         infoImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-                builder1.setTitle("API Info");
+                builder1.setTitle("App Info");
                 builder1.setMessage(getString(R.string.information)+getString(R.string.contactDeveloper)+getString(R.string.email));
                 builder1.setCancelable(true);
                 builder1.setPositiveButton(
@@ -850,6 +861,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public void recordRunTime() {
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = myPrefs.edit();
+        editor.putLong("lastRun", System.currentTimeMillis());
+        editor.apply();
+    }
+
+    public void enableNotification(View v) {
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = myPrefs.edit();
+        editor.putLong("lastRun", System.currentTimeMillis());
+        editor.putBoolean("enabled", true);
+        editor.apply();
     }
 
     public BroadcastReceiver onComplete=new BroadcastReceiver() {

@@ -1,14 +1,11 @@
 package com.ladopoulos.rart;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 class AppRater {
     private final static String APP_TITLE = "iART";// App Name
@@ -48,52 +45,46 @@ class AppRater {
     private static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor) {
         int unicode = 0x1F609;
         String emoji = getEmojiByUnicode(unicode);
-        final Dialog dialog = new Dialog(mContext);
-        dialog.setTitle("Rate " + APP_TITLE);
 
-        LinearLayout ll = new LinearLayout(mContext);
-        ll.setOrientation(LinearLayout.VERTICAL);
+        //New part start
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Rate " + APP_TITLE);
+        builder.setIcon(R.drawable.rate);
+        builder.setMessage(mContext.getString(R.string.rateText)+emoji);
+        builder.setPositiveButton(mContext.getString(R.string.rate),
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
+                        dialog.dismiss();
+                    }
+                });
 
-        TextView tv = new TextView(mContext);
-        tv.setText(mContext.getString(R.string.rateText)+emoji);
-        tv.setWidth(240);
-        tv.setPadding(4, 0, 4, 10);
-        ll.addView(tv);
+        builder.setNeutralButton(R.string.remind_me_later,
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        dialog.dismiss();
+                    }
+                });
 
-        Button b1 = new Button(mContext);
-        b1.setText(mContext.getString(R.string.rate));
-        b1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
-                dialog.dismiss();
-            }
-        });
-        ll.addView(b1);
+        builder.setNegativeButton(R.string.noThanks,
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        if (editor != null) {
+                            editor.putBoolean("dontshowagain", true);
+                            editor.commit();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+        //New part end
 
-        Button b2 = new Button(mContext);
-        b2.setText(R.string.remind_me_later);
-        b2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        ll.addView(b2);
-
-        Button b3 = new Button(mContext);
-        b3.setText(R.string.noThanks);
-        b3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (editor != null) {
-                    editor.putBoolean("dontshowagain", true);
-                    editor.commit();
-                }
-                dialog.dismiss();
-            }
-        });
-        ll.addView(b3);
-
-        dialog.setContentView(ll);
-        dialog.show();
     }
 
     private static String getEmojiByUnicode(int unicode){
