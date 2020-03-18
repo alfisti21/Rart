@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 assert previousStringZero != null;
                 int nextIntZero = Integer.parseInt(previousStringZero);
                 if(nextIntZero>196210){
-                    Toast toast = Toast.makeText(MainActivity.this,"This is the beginning", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(MainActivity.this,"This is the end", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
                 }else{
@@ -839,6 +840,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(shareIntent, "Share"));
                 startActivity(shareIntent);
                 break;
+            case R.id.folder:
+                Intent folderIntent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath());
+                folderIntent.setDataAndType(uri, "*/*");
+                startActivity(Intent.createChooser(folderIntent, "Open folder"));
             default:
                 break;
         }

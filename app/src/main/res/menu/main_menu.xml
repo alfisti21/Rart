@@ -9,6 +9,15 @@
         app:showAsAction="ifRoom"
         android:actionLayout="@layout/toolbar"
         android:title="@string/share" />
+
+    <item
+        android:id="@+id/folder"
+        android:orderInCategory="2"
+        android:icon="@drawable/folder"
+        app:showAsAction="ifRoom"
+        android:actionLayout="@layout/toolbar"
+        android:title="@string/folder" />
+
     <!--
     <item
         android:id="@+id/favorite"

@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,UnusedAttribute">
         <activity android:name=".MoreInfoActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
