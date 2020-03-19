@@ -12,7 +12,7 @@
     <string name="contactDeveloper">\n\nFor any bugs or suggestion please contact the developer at:\u0020</string>
     <string name="email">\u0020<u>jellodevs@gmail.com</u></string>
     <string name="instructions">-Long press on image to download\n\n-Single tap image to enlarge\n\n-Press on artist\'s name for more information\n\n-Use next/previous button to navigate through the collection\n\n-Click the share symbol to send the piece\'s name, artist and image URL to friends\n\n-Click on the folder icon to open downloaded images folder</string>
-    <string name="updates">-Added option to open downloaded pictures folder.\n-Small improvements</string>
+    <string name="updates">-Added option to open downloaded pictures folder.\n-Added favourites button. Users can now save their favorite paintings. Page to view favorites to be implemented\n-Small improvements</string>
     <string name="favoriteAppBar">Save</string>
     <string name="favorites">Favorites</string>
     <string name="quiz">Take Quiz!</string>
