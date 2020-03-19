@@ -6,7 +6,7 @@
         android:id="@+id/share"
         android:orderInCategory="1"
         android:icon="@drawable/share"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:actionLayout="@layout/toolbar"
         android:title="@string/share" />
 
@@ -14,7 +14,7 @@
         android:id="@+id/folder"
         android:orderInCategory="2"
         android:icon="@drawable/folder"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:actionLayout="@layout/toolbar"
         android:title="@string/folder" />
 
@@ -23,16 +23,18 @@
         android:id="@+id/favorite"
         android:orderInCategory="3"
         android:icon="@drawable/favorites"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:actionLayout="@layout/toolbar"
         android:title="@string/favoriteAppBar" />
 
-    <!--
     <item
-        android:id="@+id/favoritesList"
-        android:orderInCategory="3"
+        android:id="@+id/favorites"
+        android:orderInCategory="4"
+        app:showAsAction="never"
         android:actionLayout="@layout/toolbar"
         android:title="@string/favorites" />
+
+    <!--
     <item
         android:id="@+id/quiz"
         android:orderInCategory="4"

@@ -243,24 +243,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintGuide_percent="0.96" />
 
-    <TextView
-        android:id="@+id/developer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Developed by JelloDev"
+    <LinearLayout
+        android:id="@+id/linearLayoutBottom"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintTop_toTopOf="@+id/guideline3">
 
-    <ImageView
-        android:id="@+id/info"
-        android:layout_width="20dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/developer"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:srcCompat="@drawable/info" />
+        <TextView
+            android:id="@+id/developer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/developed_by" />
+
+        <ImageView
+            android:id="@+id/info"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            app:srcCompat="@drawable/info" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

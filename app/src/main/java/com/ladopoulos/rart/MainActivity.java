@@ -857,7 +857,7 @@ public class MainActivity extends AppCompatActivity {
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
 
                 mydb.insertPainting(myPrefs.getString("TITLE", null), myPrefs.getString("ARTISTNAME", null),
-                        myPrefs.getString("DATE", null), myPrefs.getString("CULTURE", null));
+                        myPrefs.getString("DATE", null), myPrefs.getString("CULTURE", null), myPrefs.getString("IMAGE_SMALL", null));
 
                 Toast toast = Toast.makeText(MainActivity.this, "Saved to favorites", Toast.LENGTH_SHORT);
                 View view = toast.getView();
@@ -868,6 +868,10 @@ public class MainActivity extends AppCompatActivity {
                 toastTextView.setTypeface(Typeface.DEFAULT_BOLD);
                 toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
+                break;
+            case R.id.favorites:
+                Intent favoritesIntent = new Intent(this, FavoritesActivity.class);
+                startActivity(favoritesIntent);
                 break;
             default:
                 break;

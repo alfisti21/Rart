@@ -19,6 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CONTACTS_COLUMN_ARTIST_NAME = "artistName";
     private static final String CONTACTS_COLUMN_YEAR = "year";
     private static final String CONTACTS_COLUMN_CULTURE = "culture";
+    private static final String CONTACTS_COLUMN_LINK = "link";
     private HashMap hp;
 
     public DBHelper(Context context) {
@@ -29,7 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "create table paintings " +
-                        "(id integer primary key, paintingName text, artistName text, year text, culture text)"
+                        "(id integer primary key, paintingName text, artistName text, year text, culture text, link text)"
         );
     }
 
@@ -39,13 +40,14 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertPainting (String paintingName, String artistName, String year, String culture) {
+    public boolean insertPainting (String paintingName, String artistName, String year, String culture, String link) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("paintingName", paintingName);
         contentValues.put("artistName", artistName);
         contentValues.put("year", year);
         contentValues.put("culture", culture);
+        contentValues.put("link", link);
         db.insert("paintings", null, contentValues);
         return true;
     }
@@ -88,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from paintings", null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_PAINTING_NAME)));
             res.moveToNext();
         }
