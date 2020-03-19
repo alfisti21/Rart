@@ -195,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
             if(prefsArtistName.matches("Not available") || prefsArtistName.matches("Artist Unknown")
             || prefsArtistName.matches("Unidentified Artist")){
                 artistNameTV.setTextColor(Color.parseColor("#ff0000"));
-                artistNameTV.setPaintFlags(artistNameTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             }else{
                 artistNameTV.setTextColor(Color.parseColor("#0000ff"));
                 artistNameTV.setPaintFlags(artistNameTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);

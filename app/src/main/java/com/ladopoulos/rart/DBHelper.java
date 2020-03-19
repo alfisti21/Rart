@@ -2,7 +2,7 @@ package com.ladopoulos.rart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -40,7 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertPainting (String paintingName, String artistName, String year, String culture, String link) {
+    void insertPainting(String paintingName, String artistName, String year, String culture, String link) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("paintingName", paintingName);
@@ -49,7 +49,6 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("culture", culture);
         contentValues.put("link", link);
         db.insert("paintings", null, contentValues);
-        return true;
     }
 
     public Cursor getData(int id) {
@@ -82,7 +81,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[] { Integer.toString(id) });
     }
 
-    public ArrayList<String> getAllPaintings() {
+    ArrayList<String> getAllPaintings() {
         ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();

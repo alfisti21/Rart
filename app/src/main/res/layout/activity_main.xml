@@ -266,6 +266,8 @@
             android:id="@+id/developer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:fontFamily="@font/kalam_light"
             android:text="@string/developed_by" />
 
         <ImageView
