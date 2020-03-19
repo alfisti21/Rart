@@ -18,14 +18,16 @@
         android:actionLayout="@layout/toolbar"
         android:title="@string/folder" />
 
-    <!--
+
     <item
         android:id="@+id/favorite"
-        android:orderInCategory="2"
-        android:icon="@drawable/favorites1"
+        android:orderInCategory="3"
+        android:icon="@drawable/favorites"
         app:showAsAction="ifRoom"
         android:actionLayout="@layout/toolbar"
         android:title="@string/favoriteAppBar" />
+
+    <!--
     <item
         android:id="@+id/favoritesList"
         android:orderInCategory="3"

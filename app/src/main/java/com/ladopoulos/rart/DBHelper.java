@@ -13,9 +13,12 @@ import android.database.sqlite.SQLiteDatabase;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Favorites.db";
-    private static final String CONTACTS_TABLE_NAME = "paintingIDs";
+    private static final String CONTACTS_TABLE_NAME = "paintings";
     public static final String CONTACTS_COLUMN_ID = "id";
-    private static final String CONTACTS_COLUMN_NAME = "paintingID";
+    private static final String CONTACTS_COLUMN_PAINTING_NAME = "paintingName";
+    private static final String CONTACTS_COLUMN_ARTIST_NAME = "artistName";
+    private static final String CONTACTS_COLUMN_YEAR = "year";
+    private static final String CONTACTS_COLUMN_CULTURE = "culture";
     private HashMap hp;
 
     public DBHelper(Context context) {
@@ -25,32 +28,31 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
-                "create table paintingIDs " +
-                        "(id integer primary key, paintingID text)"
+                "create table paintings " +
+                        "(id integer primary key, paintingName text, artistName text, year text, culture text)"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS contacts");
+        db.execSQL("DROP TABLE IF EXISTS paintings");
         onCreate(db);
     }
 
-    public boolean insertContact (String name, String phone, String email, String street,String place) {
+    public boolean insertPainting (String paintingName, String artistName, String year, String culture) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("phone", phone);
-        contentValues.put("email", email);
-        contentValues.put("street", street);
-        contentValues.put("place", place);
-        db.insert("contacts", null, contentValues);
+        contentValues.put("paintingName", paintingName);
+        contentValues.put("artistName", artistName);
+        contentValues.put("year", year);
+        contentValues.put("culture", culture);
+        db.insert("paintings", null, contentValues);
         return true;
     }
 
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where id="+id+"", null );
+        Cursor res =  db.rawQuery( "select * from paintings where id="+id+"", null );
         return res;
     }
 
@@ -60,35 +62,34 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateContact (Integer id, String name, String phone, String email, String street,String place) {
+    public boolean updatePainting (Integer id, String paintingName, String artistName, String year, String culture) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("phone", phone);
-        contentValues.put("email", email);
-        contentValues.put("street", street);
-        contentValues.put("place", place);
-        db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        contentValues.put("paintingName", paintingName);
+        contentValues.put("artistName", artistName);
+        contentValues.put("year", year);
+        contentValues.put("culture", culture);
+        db.update("paintings", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }
 
-    public Integer deleteContact (Integer id) {
+    public Integer deletePainting (Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("contacts",
+        return db.delete("paintings",
                 "id = ? ",
                 new String[] { Integer.toString(id) });
     }
 
-    public ArrayList<String> getAllCotacts() {
-        ArrayList<String> array_list = new ArrayList<String>();
+    public ArrayList<String> getAllPaintings() {
+        ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts", null );
+        Cursor res =  db.rawQuery( "select * from paintings", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
+            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_PAINTING_NAME)));
             res.moveToNext();
         }
         return array_list;

@@ -58,6 +58,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     SharedPreferences myPrefs;
     boolean expanded = false;
+    DBHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         setContentView(R.layout.activity_main);
+
+        //Create database
+        mydb = new DBHelper(this);
 
         myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         if (!myPrefs.contains("lastRun")){
@@ -833,14 +837,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            /*case R.id.favorite:
-            case R.id.favoritesList:
-            case R.id.quiz:
-                Toast toastFavorite = Toast.makeText(MainActivity.this,"In Development...", Toast.LENGTH_SHORT);
-                toastFavorite.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                toastFavorite.show();
-                break;*/
             case R.id.share:
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                 String toShare = "\"" + myPrefs.getString("TITLE", null) + "\"" + "\n" + myPrefs.getString("ARTISTNAME", null) + "\n" +myPrefs.getString("IMAGE", null);
@@ -856,6 +852,23 @@ public class MainActivity extends AppCompatActivity {
                 Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath());
                 folderIntent.setDataAndType(uri, "*/*");
                 startActivity(Intent.createChooser(folderIntent, "Open folder"));
+                break;
+            case R.id.favorite:
+                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+
+                mydb.insertPainting(myPrefs.getString("TITLE", null), myPrefs.getString("ARTISTNAME", null),
+                        myPrefs.getString("DATE", null), myPrefs.getString("CULTURE", null));
+
+                Toast toast = Toast.makeText(MainActivity.this, "Saved to favorites", Toast.LENGTH_SHORT);
+                View view = toast.getView();
+                view.getBackground().setColorFilter(Color.parseColor("#29b8ff"), PorterDuff.Mode.SRC_IN);
+                TextView toastTextView = toast.getView().findViewById(android.R.id.message);
+                toastTextView.setGravity(Gravity.CENTER);
+                toastTextView.setTextColor(Color.parseColor("#FFFFFF"));
+                toastTextView.setTypeface(Typeface.DEFAULT_BOLD);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+                break;
             default:
                 break;
         }
