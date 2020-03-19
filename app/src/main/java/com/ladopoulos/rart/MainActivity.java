@@ -192,8 +192,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             paintingNameTV.setText(prefsPaintingName);
             artistNameTV.setText(prefsArtistName);
-            artistNameTV.setTextColor(Color.parseColor("#0000ff"));
-            artistNameTV.setPaintFlags(artistNameTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            if(prefsArtistName.matches("Not available") || prefsArtistName.matches("Artist Unknown")
+            || prefsArtistName.matches("Unidentified Artist")){
+                artistNameTV.setTextColor(Color.parseColor("#ff0000"));
+                artistNameTV.setPaintFlags(artistNameTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            }else{
+                artistNameTV.setTextColor(Color.parseColor("#0000ff"));
+                artistNameTV.setPaintFlags(artistNameTV.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            }
             additionalInfo.setTextColor(Color.parseColor("#0000ff"));
             additionalInfo.setPaintFlags(additionalInfo.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             paintingYearTV.setText(prefsPaintingYear);
@@ -242,7 +248,8 @@ public class MainActivity extends AppCompatActivity {
         artistNameTV.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String prefsArtistNameClick = myPrefs.getString("ARTISTNAME",null);
-                if (!prefsArtistNameClick.matches("") || prefsArtistNameClick.matches("Unknown")){
+                if (!prefsArtistNameClick.matches("") || prefsArtistNameClick.matches("Unknown")
+                        || prefsArtistNameClick.matches("Artist Unknown") || prefsArtistNameClick.matches("Unidentified Artist")){
                     if(prefsArtistNameClick.matches("Not available")){
                         Toast toast = Toast.makeText(MainActivity.this,"Artist not available at the moment", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);

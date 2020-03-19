@@ -64,6 +64,7 @@
                 android:id="@+id/paintingName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:fontFamily="@font/kalam_light"
@@ -90,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
+                android:textStyle="bold"
                 android:fontFamily="@font/kalam_light"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
@@ -113,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:gravity="end"
                 android:fontFamily="@font/kalam_light"
                 android:textColor="@color/black"
@@ -137,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:gravity="end"
                 android:fontFamily="@font/kalam_light"
                 android:textColor="@color/black"
@@ -165,6 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintGuide_percent="0.68"
         app:layout_constraintTop_toTopOf="parent" />
@@ -204,14 +209,16 @@
             android:id="@+id/alreadyViewed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="cursive"
+            android:fontFamily="@font/kalam_light"
+            android:textStyle="bold"
             android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/numberSeparator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="cursive"
+            android:fontFamily="@font/kalam_light"
+            android:textStyle="bold"
             android:text=" of "
             android:textColor="@color/black" />
 
@@ -219,7 +226,8 @@
             android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="cursive"
+            android:fontFamily="@font/kalam_light"
+            android:textStyle="bold"
             android:textColor="@color/black" />
 
         <ImageView
