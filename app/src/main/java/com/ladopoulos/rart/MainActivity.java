@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(this,  CheckRecentRun.class));
 
-        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
         File file = new File(Environment.getExternalStorageDirectory() + "/" + ".paintingIDs.json");
         if (!file.exists()) {
             myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
@@ -116,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout buttonsLayout = findViewById(R.id.linearLayout);
         final ScrollView infoMatrix = findViewById(R.id.scroll_View2);
         String currentVersionCode = Integer.toString(BuildConfig.VERSION_CODE);
+
+        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         AppRater.app_launched(this);
 
@@ -894,6 +894,12 @@ public class MainActivity extends AppCompatActivity {
         editor.putLong("lastRun", System.currentTimeMillis());
         editor.putBoolean("enabled", true);
         editor.apply();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        unregisterReceiver(onComplete);
     }
 
     public BroadcastReceiver onComplete=new BroadcastReceiver() {

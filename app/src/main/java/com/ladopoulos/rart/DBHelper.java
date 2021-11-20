@@ -15,11 +15,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Favorites.db";
     private static final String CONTACTS_TABLE_NAME = "paintings";
     public static final String CONTACTS_COLUMN_ID = "id";
-    private static final String CONTACTS_COLUMN_PAINTING_NAME = "paintingName";
-    private static final String CONTACTS_COLUMN_ARTIST_NAME = "artistName";
-    private static final String CONTACTS_COLUMN_YEAR = "year";
-    private static final String CONTACTS_COLUMN_CULTURE = "culture";
-    private static final String CONTACTS_COLUMN_LINK = "link";
+    static final String CONTACTS_COLUMN_PAINTING_NAME = "paintingName";
+    static final String CONTACTS_COLUMN_ARTIST_NAME = "artistName";
+    static final String CONTACTS_COLUMN_YEAR = "year";
+    static final String CONTACTS_COLUMN_CULTURE = "culture";
+    static final String CONTACTS_COLUMN_LINK = "link";
     private HashMap hp;
 
     public DBHelper(Context context) {
@@ -90,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while(!res.isAfterLast()){
-            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_PAINTING_NAME)));
+            array_list.add(res.getString(res.getColumnIndexOrThrow(CONTACTS_COLUMN_PAINTING_NAME)));
             res.moveToNext();
         }
         return array_list;

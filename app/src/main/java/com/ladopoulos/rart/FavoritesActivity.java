@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -39,6 +40,9 @@ public class FavoritesActivity extends AppCompatActivity implements MyAdapter.It
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(this, "You clicked " + mAdapter.getItemId(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+        Intent singleFavoriteIntent = new Intent(this, SingleFavoriteActivity.class);
+        singleFavoriteIntent.putExtra("id", position+1);
+        startActivity(singleFavoriteIntent);
     }
 
 }
