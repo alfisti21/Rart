@@ -5,7 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29"
+        tools:ignore="ScopedStorage"/>
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
@@ -16,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,UnusedAttribute">
-        <activity android:name=".FavoritesActivity"></activity>
+        <activity android:name=".SingleFavoriteActivity" />
+        <activity android:name=".FavoritesActivity" />
 
         <service
             android:name=".CheckRecentRun"
@@ -25,7 +28,8 @@
         <activity android:name=".MoreInfoActivity" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
