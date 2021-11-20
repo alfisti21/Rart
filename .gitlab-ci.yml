@@ -30,10 +30,10 @@ before_script:
 #   script:
 #     - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
 
-assembleRelease:
+assembleDebug:
   stage: build
   script:
-    - ./gradlew assembleRelease
+    - ./gradlew assembleDebug
   artifacts:
     paths:
       - app/build/outputs/
